@@ -1,6 +1,5 @@
 <template>
     <div class="carousel">
-        <button @click="prevSlide" class="nav-button prev">Previous</button>
         <div class="carousel-container">
             <div class="carousel-item">
                 <img :src="items[currentSlide].image_url" :alt="items[currentSlide].title" class="carousel-image" />
@@ -10,6 +9,8 @@
             </div>
         </div>
         <button @click="nextSlide" class="nav-button next">Next</button>
+        <button @click="prevSlide" class="nav-button prev">Prev</button>
+
     </div>
 </template>
   
@@ -28,11 +29,11 @@ export default {
         const currentSlide = ref(0);
 
         const nextSlide = () => {
-            currentSlide.value = (currentSlide.value + 1) % items.value.length;
+            currentSlide.value = currentSlide.value + 1;
         };
 
         const prevSlide = () => {
-            currentSlide.value = (currentSlide.value - 1 + items.value.length) % items.value.length;
+            currentSlide.value = currentSlide.value - 1;
         };
 
         return {
