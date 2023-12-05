@@ -12,38 +12,59 @@
 </template>
   
 <script>
-import { ref, computed } from 'vue';
+import { ref, reactive, computed, onMounted, nextTick } from 'vue';
 
 export default {
-    data() {
-        return {
-            searchTerm: '',
-            suggestions: ['Apple', 'Banana', 'Cherry', 'Date', 'Fig', 'Grape', 'Kiwi', 'Lemon', 'Mango', 'Orange'],
-            showSuggestion: false,
+    props: {
+        data: {
+            type: Array,
+            required: true,
+        },
+    },
+    setup(props) {
+        const searchTerm = ref('');
+        const showSuggestion = ref(false);
+
+        const suggestions = reactive(props.data.map(val => val.title));
+
+        const filteredSuggestions = computed(() => {
+            return suggestions.filter(suggestion => suggestion.toLowerCase().includes(searchTerm.value.toLowerCase()));
+        });
+
+        const handleInput = () => {
+            showSuggestion.value = true;
         };
-    },
-    computed: {
-        filteredSuggestions() {
-            return this.suggestions.filter(suggestion => suggestion.toLowerCase().includes(this.searchTerm.toLowerCase()));
-        },
-    },
-    methods: {
-        handleInput() {
-            this.showSuggestion = true;
-        },
-        showSuggestions() {
-            this.showSuggestion = true;
-        },
-        hideSuggestions() {
-            // Use nextTick to delay hiding suggestions, allowing click events to be captured first
-            this.$nextTick(() => {
-                this.showSuggestion = false;
+
+        const showSuggestions = () => {
+            showSuggestion.value = true;
+        };
+
+        const hideSuggestions = () => {
+            nextTick(() => {
+                showSuggestion.value = false;
             });
-        },
-        selectSuggestion(item) {
-            this.searchTerm = item;
-            this.showSuggestion = false;
-        },
+        };
+
+        const selectSuggestion = (item) => {
+            searchTerm.value = item;
+            showSuggestion.value = false;
+        };
+
+        // Additional setup if needed, such as fetching data, etc.
+        onMounted(() => {
+            // Do something on component mount
+        });
+
+        return {
+            searchTerm,
+            showSuggestion,
+            suggestions,
+            filteredSuggestions,
+            handleInput,
+            showSuggestions,
+            hideSuggestions,
+            selectSuggestion,
+        };
     },
 };
 </script>

@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import Autocomplete from './components/autocomplete/Autocomplete.vue';
 import PhotoGallery from './components/photo-gallery/PhotoGallery.vue';
 import Carousel from './components/carousel/Carousel.vue';
+
 import { images } from "./utiils/images"
 
 
@@ -11,7 +12,7 @@ const galleryData = ref(images);
 
 <template>
   <div class="app-container">
-    <Autocomplete />
+    <Autocomplete :data="galleryData" />
     <PhotoGallery :data="galleryData" />
   </div>
   <Carousel :data="galleryData" />
