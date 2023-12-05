@@ -1,11 +1,11 @@
 <template>
     <div class="carousel">
         <button @click="prevSlide" class="nav-button prev">Previous</button>
-        <div class="carousel-container" :style="{ transform: `translateX(-${currentSlide * 100}%)` }">
-            <div v-for="(item, index) in items" :key="index" class="carousel-item">
-                <img :src="item.image_url" :alt="item.title" class="carousel-image" />
+        <div class="carousel-container">
+            <div class="carousel-item">
+                <img :src="items[currentSlide].image_url" :alt="items[currentSlide].title" class="carousel-image" />
                 <div class="carousel-info">
-                    <h3>{{ item.title }}</h3>
+                    <h3>{{ items[currentSlide].title }}</h3>
                 </div>
             </div>
         </div>
